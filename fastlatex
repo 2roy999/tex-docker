@@ -1,0 +1,6 @@
+#!/bin/sh -e
+
+pdflatex -interaction=nonstopmode -jobname=output -shell-escape $1
+bibtex output.aux
+pdflatex -interaction=nonstopmode -jobname=output -shell-escape $1
+pdflatex -interaction=nonstopmode -jobname=output -shell-escape $1
