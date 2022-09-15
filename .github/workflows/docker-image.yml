@@ -6,7 +6,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ env.REGISTRY }}/${{ env.GITHUB_REPOSITORY_OWNER }}/tex
+  IMAGE_NAME: ghcr.io/${{ env.GITHUB_REPOSITORY_OWNER }}/tex
 
 jobs:
 
