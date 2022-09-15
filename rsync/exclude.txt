@@ -4,7 +4,7 @@
 **/*\.exe
 **/*\.dll
 
-
+/archive/*
 /archive/*\.doc\.*
 /archive/*\.source\.*
 /archive/*\.aarch64-linux\.*
