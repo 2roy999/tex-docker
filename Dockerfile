@@ -74,8 +74,10 @@ RUN --mount=from=downloader,source=/dst/dummy-texlive,target=/dummy-texlive \
 
 RUN --mount=from=downloader,source=/dst/texlive,target=/texlive \
   cd texlive \
-  && ./install-tl -profile install.profile \
-  && $(find /usr/local/texlive -name tlmgr) path add
+  && ./install-tl -profile install.profile
+  # && $(find /usr/local/texlive -name tlmgr) path add
+
+ENV PATH "/usr/local/texlive/2022/bin/x86_64-linux/:${PATH}"
 
 COPY fastlatex /usr/local/bin/
 
