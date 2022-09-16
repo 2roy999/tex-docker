@@ -1,3 +1,10 @@
+FROM alpine AS first
+
+WORKDIR /work
+
+RUN echo "hello" > /work/txt
+
 FROM alpine
 
-RUN apk add texlive
+RUN --mount=from=first,source=/work,target=/other \
+  cat /other/txt
