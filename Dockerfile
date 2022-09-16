@@ -15,13 +15,19 @@ RUN curl https://tug.org/texlive/files/debian-equivs-2022-ex.txt --output texliv
   && mkdir -p /dst/dummy-texlive \
   && cp texlive-local_9999.99999999-1_all.deb /dst/dummy-texlive/
 
-COPY ./rsync/exclude.txt /config/
+COPY ./config/*.txt /config/
 
 RUN mkdir -p /dst \
   && rsync -av --stats --exclude-from=/config/exclude.txt \
-    rsync://rsync.dante.ctan.org/CTAN/systems/texlive/tlnet/ /dst/texlive
+    rsync://rsync.dante.ctan.org/CTAN/systems/texlive/tlnet/ /dst/texlive \
+  && for file in $(cat /config/archive-include.txt); \
+    do \
+      rsync -lv --stats --exclude-from=/config/archive-exclude.txt \
+        rsync://rsync.dante.ctan.org/CTAN/systems/texlive/tlnet/archive/$file \
+        /dst/texlive/archive; \
+    done;
 
-COPY ./install.profile /dst/texlive/
+COPY ./config/install.profile /dst/texlive/
 
 FROM debian:11.5-slim AS slim
 
@@ -77,7 +83,12 @@ WORKDIR /latex
 
 FROM slim AS final
 
+RUN apt-get update \
+  && apt-get install poppler-utils -y \
+  && rm -rf /var/lib/apt/lists/*
+
 RUN tlmgr install \
+    scheme-small \
     a4wide \
     apptools \
     bbm \

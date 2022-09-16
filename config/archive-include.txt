@@ -1,0 +1,4 @@
+texlive\.infra\.*\.tar\.xz
+kpathsea\.*\.tar\.xz
+hyphen-base\.*\.tar\.xz
+texlive-scripts\.*\.tar\.xz

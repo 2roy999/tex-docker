@@ -1,0 +1,7 @@
+/*\.bat
+/*\.exe\.sha512
+/*\.exe\.sha512.asc
+**/*\.exe
+**/*\.dll
+
+/archive/*
