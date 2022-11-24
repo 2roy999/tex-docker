@@ -46,6 +46,7 @@ RUN apt-get update \
     curl \
     git \
     unzip \
+    zip \
     # miscellaneous dependencies for TeX Live tools
     make \
     fontconfig \
