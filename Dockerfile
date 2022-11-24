@@ -45,6 +45,7 @@ RUN apt-get update \
     # basic utilities for TeX Live installation
     curl \
     git \
+    poppler-utils \
     unzip \
     zip \
     # miscellaneous dependencies for TeX Live tools
