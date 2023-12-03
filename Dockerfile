@@ -1,4 +1,8 @@
+ARG TEX_VERSION=2023
+
 FROM debian:11.5-slim AS downloader
+
+ARG TEX_VERSION
 
 RUN apt-get update \
   && apt-get install -y \
@@ -9,8 +13,8 @@ RUN apt-get update \
 
 WORKDIR /setup
 
-RUN curl https://tug.org/texlive/files/debian-equivs-2022-ex.txt --output texlive-local \
-  && sed -i "s/2022/9999/" texlive-local \
+RUN curl "https://tug.org/texlive/files/debian-equivs-$TEX_VERSION-ex.txt" --output texlive-local \
+  && sed -i "s/$TEX_VERSION/9999/" texlive-local \
   && equivs-build texlive-local \
   && mkdir -p /dst/dummy-texlive \
   && cp texlive-local_9999.99999999-1_all.deb /dst/dummy-texlive/
@@ -30,6 +34,8 @@ RUN mkdir -p /dst \
 COPY ./config/install.profile /dst/texlive/
 
 FROM debian:11.5-slim AS slim
+
+ARG TEX_VERSION
 
 ENV LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
@@ -79,7 +85,7 @@ RUN --mount=from=downloader,source=/dst/texlive,target=/texlive \
   && ./install-tl -profile install.profile
   # && $(find /usr/local/texlive -name tlmgr) path add
 
-ENV PATH "/usr/local/texlive/2022/bin/x86_64-linux/:${PATH}"
+ENV PATH "/usr/local/texlive/$TEX_VERSION/bin/x86_64-linux/:${PATH}"
 
 COPY fastlatex /usr/local/bin/
 
